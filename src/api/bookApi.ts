@@ -1,5 +1,5 @@
 import { HttpClient } from "../HttpClient";
-import type { Meta, Document } from "../types";
+import type { Meta, _Document } from "../types";
 
 const httpClient = new HttpClient("https://dapi.kakao.com/v3/search/book/");
 
@@ -13,7 +13,7 @@ export function searchBooks(
 ) {
   return httpClient.request<{
     meta: Meta;
-    documents: Document[];
+    documents: _Document[];
   }>({
     endpoint: {
       method: "get",

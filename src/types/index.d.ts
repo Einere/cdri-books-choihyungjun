@@ -4,7 +4,7 @@ export type Meta = {
   total_count: number;
 };
 
-export type Document = {
+export type _Document = {
   authors: string[];
   contents: string;
   //  ISO 8601
