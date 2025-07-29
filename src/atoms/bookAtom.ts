@@ -1,5 +1,6 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+import { isNonEmptyStr } from "@einere/common-utils";
 
 export const bookSearchHistoriesAtom = atomWithStorage<string[]>(
   "cdri-search-histories",
@@ -9,6 +10,10 @@ export const bookSearchHistoriesAtom = atomWithStorage<string[]>(
 export const addBookSearchHistoryAtom = atom(
   null,
   (get, set, history: string) => {
+    if (!isNonEmptyStr(history)) {
+      return;
+    }
+
     const beforeHistories = get(bookSearchHistoriesAtom);
 
     const isAlreadyAdded = beforeHistories.some((h) => h === history);
