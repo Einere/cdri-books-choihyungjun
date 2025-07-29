@@ -1,11 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Search } from "./Search.tsx";
 import { SearchedBooks } from "./SearchedBooks.tsx";
 import { useSearchBooks } from "../hooks/useSearchBooks.ts";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver.ts";
+import type { SearchForm } from "../../types";
+import { FormProvider, useForm } from "react-hook-form";
 
 export function BookSearch() {
-  const [query, setQuery] = useState("");
+  const formMethods = useForm<SearchForm>({
+    defaultValues: {
+      query: "",
+      detailQuery: undefined,
+      queryTarget: undefined,
+    },
+  });
+  const { watch } = formMethods;
+  const query = watch("query");
+  const detailQuery = watch("detailQuery");
+  const queryTarget = watch("queryTarget");
 
   const {
     data,
@@ -17,7 +29,8 @@ export function BookSearch() {
     isFetching,
     isFetchingNextPage,
   } = useSearchBooks({
-    query: query,
+    query: queryTarget ? detailQuery : query,
+    target: queryTarget,
   });
 
   // NOTE: load more 동작이 인터섹션 중 한번만 호출되도록 제어하기 위함
@@ -46,28 +59,28 @@ export function BookSearch() {
 
   if (!data) {
     return (
-      <>
-        <Search query={query} setQuery={setQuery} refetch={refetch} />
+      <FormProvider {...formMethods}>
+        <Search refetch={refetch} />
         <SearchedBooks.BeforeSearch />
-      </>
+      </FormProvider>
     );
   }
 
   if (isPending) {
     return (
-      <>
-        <Search query={query} setQuery={setQuery} refetch={refetch} />
+      <FormProvider {...formMethods}>
+        <Search refetch={refetch} />
         <SearchedBooks.LoadingFallback />
-      </>
+      </FormProvider>
     );
   }
 
   if (error) {
     return (
-      <>
-        <Search query={query} setQuery={setQuery} refetch={refetch} />
+      <FormProvider {...formMethods}>
+        <Search refetch={refetch} />
         <SearchedBooks.ErrorFallback error={error} reset={() => refetch()} />
-      </>
+      </FormProvider>
     );
   }
 
@@ -75,13 +88,13 @@ export function BookSearch() {
   const totalNumOfBooks = data.pages[0].data.meta.total_count;
 
   return (
-    <>
-      <Search query={query} setQuery={setQuery} refetch={refetch} />
+    <FormProvider {...formMethods}>
+      <Search refetch={refetch} />
       <SearchedBooks totalNumOfBooks={totalNumOfBooks} books={books}>
         <p id="intersection-observer" className="text-center">
           {isFetchingNextPage ? "더 불러오는 중..." : ""}
         </p>
       </SearchedBooks>
-    </>
+    </FormProvider>
   );
 }

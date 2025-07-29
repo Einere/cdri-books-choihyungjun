@@ -3,7 +3,7 @@ import { searchBooks } from "../../api";
 
 export function useSearchBooks(params: Parameters<typeof searchBooks>[0]) {
   return useInfiniteQuery({
-    queryKey: ["BOOKS", params.query],
+    queryKey: ["BOOKS", params.query, params.target],
     queryFn: ({ pageParam }) => searchBooks({ ...params, page: pageParam }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {

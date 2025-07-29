@@ -1,4 +1,4 @@
-import { type Dispatch, type SetStateAction, useState } from "react";
+import { useState } from "react";
 import { isNonEmptyArray } from "@einere/common-utils";
 import { useAtomValue, useSetAtom } from "jotai";
 import {
@@ -8,16 +8,19 @@ import {
 } from "../../atoms";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useSearchBooks } from "../hooks/useSearchBooks.ts";
+import { DetailSearch } from "./DetailSearch.tsx";
+import { useFormContext } from "react-hook-form";
+import type { SearchForm } from "../../types";
 
 type SearchProps = {
   refetch: ReturnType<typeof useSearchBooks>["refetch"];
-  query: string;
-  setQuery: Dispatch<SetStateAction<string>>;
 };
 export function Search(props: SearchProps) {
-  const { query, setQuery, refetch } = props;
+  const { refetch } = props;
 
   const [isFocused, setIsFocused] = useState(false);
+
+  const { register, setValue, handleSubmit } = useFormContext<SearchForm>();
   const addBookSearchHistory = useSetAtom(addBookSearchHistoryAtom);
 
   return (
@@ -26,8 +29,17 @@ export function Search(props: SearchProps) {
         도서 검색
       </label>
 
-      <div className="mb-4 flex items-center">
-        <div className="relative grid w-fit grid-cols-[1fr_auto_auto] items-center rounded-sm bg-gray-200 px-2 py-1">
+      <form
+        onSubmit={handleSubmit((searchForm) => {
+          const { query } = searchForm;
+
+          addBookSearchHistory(query);
+          refetch();
+          setIsFocused(false);
+        })}
+        className="mb-4 flex items-center"
+      >
+        <div className="input relative grid w-fit grid-cols-[1fr_auto_auto] items-center">
           <MagnifyingGlassIcon />
 
           <input
@@ -36,23 +48,16 @@ export function Search(props: SearchProps) {
             className="mx-2"
             placeholder="검색어를 입력하세요."
             onFocus={() => setIsFocused(true)}
-            onBlur={() => setTimeout(() => setIsFocused(false), 100)}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                addBookSearchHistory(e.currentTarget.value);
-                refetch();
-                setIsFocused(false);
-              }
-            }}
-            value={query}
+            {...register("query", {
+              onBlur: () => setTimeout(() => setIsFocused(false), 100),
+            })}
           />
 
           <Search.History
             isExpanded={isFocused}
             onClick={(history) => {
               addBookSearchHistory(history);
-              setQuery(history);
+              setValue("query", history);
               requestAnimationFrame(() => {
                 refetch();
                 setIsFocused(false);
@@ -61,8 +66,8 @@ export function Search(props: SearchProps) {
           />
         </div>
 
-        <button className="ml-4">상세검색</button>
-      </div>
+        <DetailSearch refetch={refetch} />
+      </form>
     </>
   );
 }

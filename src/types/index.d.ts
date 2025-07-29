@@ -19,3 +19,11 @@ export type _Document = {
   translators: string[];
   url: string;
 };
+
+export type QueryTarget = "title" | "isbn" | "person" | "publisher";
+
+export type SearchForm = {
+  query: string;
+  detailQuery: string;
+  queryTarget?: QueryTarget;
+};
