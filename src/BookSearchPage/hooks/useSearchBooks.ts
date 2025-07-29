@@ -1,8 +1,8 @@
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { searchBooks } from "../../api";
 
 export function useSearchBooks(params: Parameters<typeof searchBooks>[0]) {
-  return useSuspenseInfiniteQuery({
+  return useInfiniteQuery({
     queryKey: ["BOOKS", params.query],
     queryFn: ({ pageParam }) => searchBooks({ ...params, page: pageParam }),
     initialPageParam: 1,
@@ -14,5 +14,7 @@ export function useSearchBooks(params: Parameters<typeof searchBooks>[0]) {
       const currentPage = allPages.length;
       return currentPage + 1;
     },
+    placeholderData: keepPreviousData,
+    enabled: false,
   });
 }
