@@ -1,10 +1,11 @@
 import { useSearchBooks } from "../hooks/useSearchBooks.ts";
 import { isEmptyArray } from "@einere/common-utils";
 import { Book } from "./Book.tsx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver.ts";
 import type { ErrorBoundaryFallbackProps } from "@suspensive/react";
 import { AxiosError } from "axios";
+import { BookManager } from "../../entity/BookManager.ts";
 
 type SearchedBooksProps = {
   query: string;
@@ -66,19 +67,9 @@ export function SearchedBooks(props: SearchedBooksProps) {
   return (
     <>
       <SearchedBooks.Header numOfBooks={totalNumOfBooks} />
+      {/* NOTE: 아코디언 UI 특성 상, 가상 스크롤 적용은 어려울 듯 */}
       {books.map((book) => (
-        <Book
-          key={
-            book.isbn +
-            book.title +
-            book.datetime +
-            book.authors[0] +
-            book.publisher +
-            book.translators[0] +
-            book.thumbnail
-          }
-          book={book}
-        />
+        <Book key={BookManager.getKey(book)} book={book} />
       ))}
       <p id="intersection-observer" className="text-center">
         {isFetchingNextPage ? "더 불러오는 중..." : ""}

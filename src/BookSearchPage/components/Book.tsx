@@ -3,6 +3,8 @@ import { useState } from "react";
 import clsx from "clsx";
 import { formatNumber } from "../../utils/intl.ts";
 import { BookManager } from "../../entity/BookManager.ts";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { ExpandToggleButton } from "./ExpandToggleButton.tsx";
 
 type BookProps = {
   book: _Document;
@@ -27,7 +29,7 @@ export function Book(props: BookProps) {
         <div className="flex items-center gap-3">
           <h3 className="text-lg font-bold">{title}</h3>
           <p className="text-gray-500">{authors[0]}</p>
-          {isExpanded ? null : (
+          {!isExpanded && (
             <p className="flex-grow-1 text-end text-lg font-bold">
               {formatNumber(BookManager.isOnSale(book) ? sale_price : price)}원
             </p>
@@ -43,9 +45,10 @@ export function Book(props: BookProps) {
 
       {/* 버튼 영역 */}
       <div className={clsx("actions", isExpanded && "expanded")}>
-        <button className="toggle" onClick={() => setIsExpanded(!isExpanded)}>
+        <ExpandToggleButton onClick={() => setIsExpanded(!isExpanded)}>
           {isExpanded ? "접기" : "상세보기"}
-        </button>
+          <ChevronDownIcon />
+        </ExpandToggleButton>
         <div className="space" />
         {isExpanded && <Book.Price book={book} />}
         <button className="buy">구매하기</button>
