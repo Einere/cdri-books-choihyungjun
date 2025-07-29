@@ -1,3 +1,9 @@
+import { BookSearch } from "../BookSearchPage/components/BookSearch.tsx";
+
 export function BookSearchPage() {
-  return <p>책 검색 페이지</p>;
+  return (
+    <div className="p-4">
+      <BookSearch />
+    </div>
+  );
 }

@@ -1,1 +1,59 @@
 @import "tailwindcss";
+
+@layer base {
+  button {
+    @apply cursor-pointer rounded-sm border-1 border-solid border-gray-400 px-4;
+  }
+}
+
+@utility text-description {
+  @apply text-sm text-gray-500;
+}
+
+.book-row {
+  @apply grid gap-8 border-b border-gray-200 p-4 transition-all duration-300;
+}
+
+.book-row:last-child {
+  @apply border-none;
+}
+
+.book-row.expanded {
+  @apply grid-cols-[160px_1fr_216px];
+}
+
+.book-row:not(.expanded) {
+  @apply grid-cols-[80px_1fr_216px];
+}
+
+.info {
+  @apply flex flex-col py-2;
+}
+
+.book-row.expanded .info {
+  @apply self-start;
+}
+
+.actions {
+  @apply flex flex-row-reverse items-start justify-end gap-2;
+}
+
+.actions.expanded {
+  @apply h-full flex-col items-end;
+}
+
+.actions.expanded .space {
+  @apply flex-grow;
+}
+
+.buy {
+  @apply w-[100px] rounded border-none bg-blue-500 px-3 py-2 text-white;
+}
+
+.expanded .buy {
+  @apply w-full;
+}
+
+.toggle {
+  @apply w-[100px] rounded border-none bg-gray-100 px-3 py-2 text-gray-600;
+}
