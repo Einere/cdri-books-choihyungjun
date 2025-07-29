@@ -18,7 +18,10 @@ export function searchBooks(
     endpoint: {
       method: "get",
       url: "",
-      params: params,
+      params: {
+        query: params.query,
+        page: params.page,
+      },
     },
   });
 }
