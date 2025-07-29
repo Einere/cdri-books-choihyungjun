@@ -49,7 +49,7 @@ export function SearchedBooks(props: SearchedBooksProps) {
     <>
       <SearchedBooks.Header numOfBooks={totalNumOfBooks} />
       {books.map((book) => (
-        <Book key={book.isbn} book={book} />
+        <Book key={book.isbn + book.title + book.datetime} book={book} />
       ))}
     </>
   );
