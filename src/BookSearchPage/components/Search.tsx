@@ -7,12 +7,15 @@ import {
   removeBookSearchHistoryAtom,
 } from "../../atoms";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useSearchBooks } from "../hooks/useSearchBooks.ts";
 
 type SearchProps = {
+  refetch: ReturnType<typeof useSearchBooks>["refetch"];
+  query: string;
   setQuery: Dispatch<SetStateAction<string>>;
 };
 export function Search(props: SearchProps) {
-  const { setQuery } = props;
+  const { query, setQuery, refetch } = props;
 
   const [isFocused, setIsFocused] = useState(false);
   const addBookSearchHistory = useSetAtom(addBookSearchHistoryAtom);
@@ -32,22 +35,30 @@ export function Search(props: SearchProps) {
             type="search"
             className="mx-2"
             placeholder="검색어를 입력하세요."
-            onFocus={() => {
-              setIsFocused(true);
-            }}
-            onBlur={() => {
-              setTimeout(() => setIsFocused(false), 100);
-            }}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setTimeout(() => setIsFocused(false), 100)}
+            onChange={(e) => setQuery(e.target.value)}
             onKeyUp={(e) => {
               if (e.key === "Enter") {
                 addBookSearchHistory(e.currentTarget.value);
-                setQuery(e.currentTarget.value);
+                refetch();
                 setIsFocused(false);
               }
             }}
+            value={query}
           />
 
-          <Search.History isExpanded={isFocused} />
+          <Search.History
+            isExpanded={isFocused}
+            onClick={(history) => {
+              addBookSearchHistory(history);
+              setQuery(history);
+              requestAnimationFrame(() => {
+                refetch();
+                setIsFocused(false);
+              });
+            }}
+          />
         </div>
 
         <button className="ml-4">상세검색</button>
@@ -58,9 +69,10 @@ export function Search(props: SearchProps) {
 
 type SearchHistoryProps = {
   isExpanded: boolean;
+  onClick: (history: string) => void;
 };
 Search.History = function SearchHistory(props: SearchHistoryProps) {
-  const { isExpanded } = props;
+  const { isExpanded, onClick } = props;
 
   const bookSearchHistories = useAtomValue(bookSearchHistoriesAtom);
   const removeBookSearchHistory = useSetAtom(removeBookSearchHistoryAtom);
@@ -69,7 +81,6 @@ Search.History = function SearchHistory(props: SearchHistoryProps) {
     return null;
   }
 
-  // TODO: 최근 검색 기록 클릭 시, 해당 내용으로 검색하는 기능 추가
   return (
     <ul className="absolute top-[32px] left-0 w-full rounded-sm bg-gray-200">
       {bookSearchHistories.map((history) => (
@@ -77,9 +88,13 @@ Search.History = function SearchHistory(props: SearchHistoryProps) {
           key={history}
           className="flex items-center justify-between px-2 py-1 text-gray-500"
         >
-          <span>{history}</span>
+          <span onClick={() => onClick(history)} className="cursor-pointer">
+            {history}
+          </span>
           <XMarkIcon
-            onClick={() => removeBookSearchHistory(history)}
+            onClick={() => {
+              removeBookSearchHistory(history);
+            }}
             className="cursor-pointer"
           />
         </li>

@@ -47,7 +47,7 @@ export function BookSearch() {
   if (!data) {
     return (
       <>
-        <Search setQuery={setQuery} />
+        <Search query={query} setQuery={setQuery} refetch={refetch} />
         <SearchedBooks.BeforeSearch />
       </>
     );
