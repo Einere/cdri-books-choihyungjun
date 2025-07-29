@@ -42,15 +42,6 @@ export function SearchedBooks(props: SearchedBooksProps) {
     };
   }, [observe, unobserve]);
 
-  if (!data) {
-    return (
-      <>
-        <SearchedBooks.Header numOfBooks={0} />
-        <p className="text-center">책 제목을 검색해주세요.</p>
-      </>
-    );
-  }
-
   const books = data.pages.flatMap((page) => page.data.documents);
 
   if (isEmptyArray(books)) {
