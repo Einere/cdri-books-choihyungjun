@@ -51,7 +51,9 @@ export function Book(props: BookProps) {
         </ExpandToggleButton>
         <div className="space" />
         {isExpanded && <Book.Price book={book} />}
-        <button className="buy">구매하기</button>
+        <a href={book.url} target="_blank" className="button-style buy">
+          구매하기
+        </a>
       </div>
     </div>
   );

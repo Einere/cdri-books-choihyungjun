@@ -10,6 +10,12 @@
   }
 }
 
+@layer components {
+  .button-style {
+    @apply cursor-pointer rounded-sm border-1 border-solid border-gray-400 px-4 flex items-center justify-center;
+  }
+}
+
 @utility text-description {
   @apply text-sm text-gray-500;
 }
