@@ -38,7 +38,7 @@ export function Search(props: SearchProps) {
           refetch();
           setIsFocused(false);
         })}
-        className="mb-4 flex items-center"
+        className="mb-4 grid w-fit grid-cols-[auto_auto] gap-4"
       >
         <div className="input relative grid w-fit grid-cols-[1fr_auto_auto] items-center">
           <MagnifyingGlassIcon />
