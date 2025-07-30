@@ -13,7 +13,7 @@ export function DetailSearch(props: DetailSearchProps) {
 
   return (
     <Popover className="relative">
-      <PopoverButton className="ml-4">상세 검색</PopoverButton>
+      <PopoverButton className="button-secondary ml-4">상세 검색</PopoverButton>
       <PopoverPanel anchor="bottom" className="bg-white p-8 shadow-md">
         <form
           onSubmit={(e) => {
@@ -38,7 +38,7 @@ export function DetailSearch(props: DetailSearchProps) {
             })}
             className="input"
           />
-          <button type="submit" className="col-span-2">
+          <button type="submit" className="button-primary col-span-full w-full">
             검색하기
           </button>
         </form>

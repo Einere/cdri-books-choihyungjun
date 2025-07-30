@@ -10,7 +10,7 @@ export function ExpandToggleButton(
 
   return (
     <button
-      className="toggle"
+      className="toggle button-secondary"
       aria-expanded="false"
       onClick={(e) => {
         const ariaExpanded = e.currentTarget.getAttribute("aria-expanded");
