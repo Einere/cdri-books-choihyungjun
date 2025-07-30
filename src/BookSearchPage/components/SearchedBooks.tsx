@@ -18,14 +18,9 @@ export function SearchedBooks(props: PropsWithChildren<SearchedBooksProps>) {
   }
 
   return (
-    <>
-      <SearchedBooks.Header numOfBooks={totalNumOfBooks} />
-      {/* NOTE: 아코디언 UI 특성 상, 가상 스크롤 적용은 어려울 듯 */}
-      {books.map((book) => (
-        <Book key={BookManager.getKey(book)} book={book} />
-      ))}
+    <SearchedBooks.NonEmpty numOfBooks={totalNumOfBooks} books={books}>
       {children}
-    </>
+    </SearchedBooks.NonEmpty>
   );
 }
 
@@ -60,6 +55,26 @@ SearchedBooks.Empty = function SearchedBooksEmpty() {
     <>
       <SearchedBooks.Header numOfBooks={0} />
       <p className="text-center">검색 결과와 일치하는 책이 없습니다.</p>
+    </>
+  );
+};
+
+type SearchedBooksNonEmptyProps = {
+  numOfBooks: number;
+  books: _Document[];
+};
+SearchedBooks.NonEmpty = function SearchedBooksNonEmpty(
+  props: PropsWithChildren<SearchedBooksNonEmptyProps>,
+) {
+  const { numOfBooks, books, children } = props;
+  return (
+    <>
+      <SearchedBooks.Header numOfBooks={numOfBooks} />
+      {/* NOTE: 아코디언 UI 특성 상, 가상 스크롤 적용은 어려울 듯 */}
+      {books.map((book) => (
+        <Book key={BookManager.getKey(book)} book={book} />
+      ))}
+      {children}
     </>
   );
 };
