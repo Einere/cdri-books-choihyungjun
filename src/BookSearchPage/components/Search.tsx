@@ -20,7 +20,8 @@ export function Search(props: SearchProps) {
 
   const [isFocused, setIsFocused] = useState(false);
 
-  const { register, setValue, handleSubmit } = useFormContext<SearchForm>();
+  const { register, setValue, handleSubmit, unregister } =
+    useFormContext<SearchForm>();
   const addBookSearchHistory = useSetAtom(addBookSearchHistoryAtom);
 
   return (
@@ -50,6 +51,10 @@ export function Search(props: SearchProps) {
             onFocus={() => setIsFocused(true)}
             {...register("query", {
               onBlur: () => setTimeout(() => setIsFocused(false), 100),
+              onChange: () => {
+                unregister("detailQuery");
+                unregister("queryTarget");
+              },
             })}
           />
 
