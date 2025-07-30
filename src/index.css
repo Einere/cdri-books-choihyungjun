@@ -8,6 +8,10 @@
   svg {
     @apply h-4 w-4;
   }
+
+  input {
+    @apply rounded-sm bg-gray-200 px-3 py-2
+  }
 }
 
 @layer components {
@@ -18,14 +22,14 @@
   .button-secondary {
     @apply rounded-sm border-1 border-solid border-gray-100 bg-gray-100 text-gray-600 px-3 py-2 flex items-center justify-center;
   }
+
+  .input {
+    @apply rounded-sm bg-gray-200 px-2
+  }
 }
 
 @utility text-description {
   @apply text-sm text-gray-500;
-}
-
-.input {
-  @apply rounded-sm bg-gray-200 px-2 py-1
 }
 
 .book-row {

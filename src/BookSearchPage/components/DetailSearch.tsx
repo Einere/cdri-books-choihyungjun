@@ -36,7 +36,6 @@ export function DetailSearch(props: DetailSearchProps) {
             {...register("detailQuery", {
               onChange: () => setValue("query", ""),
             })}
-            className="input"
           />
           <button type="submit" className="button-primary col-span-full w-full">
             검색하기
