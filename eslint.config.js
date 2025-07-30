@@ -7,14 +7,16 @@ import { globalIgnores } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier";
 import prettier from "eslint-plugin-prettier";
 import react from "eslint-plugin-react";
+import unusedImports from "eslint-plugin-unused-imports";
 
 export default tseslint.config([
   globalIgnores(["dist"]),
   {
     files: ["**/*.{ts,tsx}"],
     plugins: {
-      prettier,
       react,
+      prettier,
+      "unused-imports": unusedImports,
     },
     extends: [
       js.configs.recommended,
@@ -32,6 +34,17 @@ export default tseslint.config([
         "error",
         { props: "never", children: "never" },
       ],
+      "no-unused-vars": "off", // or "@typescript-eslint/no-unused-vars": "off",
+      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-vars": [
+        "warn",
+        {
+          "vars": "all",
+          "varsIgnorePattern": "^_",
+          "args": "after-used",
+          "argsIgnorePattern": "^_",
+        },
+      ]
     },
   },
   eslintConfigPrettier,
