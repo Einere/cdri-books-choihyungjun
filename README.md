@@ -1,69 +1,69 @@
-# React + TypeScript + Vite
+# cdri-books-최형준
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 프로젝트 개요
 
-Currently, two official plugins are available:
+CDRI 채용 중 사전 과제 수행물
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 실행 방법
 
-## Expanding the ESLint configuration
+해당 프로젝트는 pnpm 7.33.6 버전을 필요로 합니다.
+만약 하위 버전이라면 버전 업데이트를 수행해주세요.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+올바른 pnpm 버전 설치 후, 다음 명령어를 실행해서 개발 서버를 실행해주세요. 
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```shell
+  pnpm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 디렉토리 구조
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `api`: API 파일들이 위치합니다. 모든 API는 `HttpClient` 를 기반으로 동작합니다.
+- `atoms`: jotai 전역 상태 파일들이 위치합니다. 뷰와 로직을 분리하기 위해, 최대한 상태 관련 비즈니스 로직들을 추상화하였습니다. 
+- `...Page`: 각 페이지에 속하는 파일들이 위치합니다.
+- `components`: 공용 컴포넌트 파일들이 위치합니다.
+- `entity`: 비즈니스 로직을 담당하는 엔티티 파일들이 위치합니다.
+- `hooks`: 공용 커스텀 훅 파일들이 위치합니다. 비동기 데이터 관련 훅들은 전부 Tanstack Query를 활용하고 있습니다.
+- `HttpClient`: 네트워크 요청 클라이언트 파일들이 위치합니다. 해당 인터페이스를 통해 axios 관련 의존성을 모두 제거했습니다.
+- `pages`: 라우터에 의해 렌더링 되는 페이지 컴포넌트들이 위치합니다.
+- `queryClient`: 비동기 상태 관리 도구인 쿼리 클라이언트 관련 파일들이 위치합니다.
+- `Route`: 라우터 관련 파일들이 위치합니다.
+- `types`: 타입 정의 파일들이 위치합니다.
+- `utils`: 각종 유틸리티 함수들이 위치합니다.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 의존성
+
+### 네트워크
+
+`axios`: 네트워크 요청 및 응답 처리를 편리하게 수행하기 위함. 특히 인터셉터 기능이 유용함.
+
+### 스타일
+
+`@headlessui/react`: 테일윈드와 잘 어울리는 헤드리스 컴포넌트 라이브러리. 팝오버 컴포넌트를 구현하기 위해 활용.
+
+`@heroicons/react`: 테일윈드와 잘 어울리는 아이콘 라이브러리
+
+`@tailwindcss/vite` 및 `tailwindcss`: 클래스네임 기반 스타일링 도구. css-in-css 특성 상 성능이 좋으며, 변수 합성 및 유틸리티, 테마 등을 폭넓게 지원함.
+
+`clsx`: 동적 클래스네임을 관리하기 위함
+
+
+### 리액트 생태계
+
+`@suspensive/react`: Suspense 및 ErrorBoundary 를 편리하게 사용하기 위함
+
+`react-router`: SPA 라우팅을 위함
+
+
+### 상태
+
+`jotai`: 아톰 기반 전역 상태 관리 도구. 로컬 스토리지와 연동이 매우 편리함.
+
+`react-hook-form`: 폼과 그 상태를 편리하게 다루기 위함. 특히 프로바이더를 통해 일정 범위에 폼 상태와 관리 도구들을 공유할 수 있는 부분이 유용함. 과제에서는 `<form>`과 submit 이벤트를 활용하여 편리한 사용성을 확보함. 
+
+### 유틸리티
+
+`@einere/common-utils`: 직접 개발하고 배포한 유틸리티 오픈소스.
+
+# 드리고 싶은 말씀
+
+코드 내에 추가적인 맥락이 필요한 부분은 NOTE 주석을 달아놓았습니다.

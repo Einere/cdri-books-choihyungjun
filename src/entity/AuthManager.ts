@@ -5,6 +5,7 @@ export class AuthManager {
     return import.meta.env.VITE_KAKAO_API_KEY;
   }
 
+  // NOTE: 클라이언트에서 별도로 검증할 것이 없음
   static validateAccessToken(accessToken: string | null) {
     return isNonEmptyStr(accessToken);
   }
