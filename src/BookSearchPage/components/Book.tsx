@@ -3,8 +3,10 @@ import { useState } from "react";
 import clsx from "clsx";
 import { formatNumber } from "../../utils/intl.ts";
 import { BookManager } from "../../entity/BookManager.ts";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, HeartIcon } from "@heroicons/react/24/outline";
 import { ExpandToggleButton } from "./ExpandToggleButton.tsx";
+import { useAtomValue, useSetAtom } from "jotai";
+import { allBookmarkedBooksAtom, toggleBookmarkAtom } from "../../atoms";
 
 type BookProps = {
   book: _Document;
@@ -15,14 +17,27 @@ export function Book(props: BookProps) {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const allBookmarkedBooks = useAtomValue(allBookmarkedBooksAtom);
+  const toggleBookmark = useSetAtom(toggleBookmarkAtom);
+  const isBookmarked = BookManager.getIsBookmarked(book, allBookmarkedBooks);
+
   return (
     <div className={clsx("book-row", isExpanded && "expanded")}>
       {/* 섬네일 영역 */}
-      <img
-        className="aspect-[120/174] w-full transition-[width] duration-300"
-        src={thumbnail}
-        alt={title}
-      />
+      <div className="relative">
+        <img
+          className="aspect-[120/174] w-full transition-[width] duration-300"
+          src={thumbnail}
+          alt={title}
+        />
+        <HeartIcon
+          onClick={() => toggleBookmark(book)}
+          className={clsx(
+            "absolute top-0 right-0 cursor-pointer",
+            isBookmarked && "fill-red-600 stroke-red-600",
+          )}
+        />
+      </div>
 
       {/* 정보 영역 */}
       <div className="info">

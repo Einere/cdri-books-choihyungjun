@@ -6,7 +6,7 @@
   }
 
   svg {
-    @apply h-4 w-4;
+    @apply h-4 w-4 stroke-gray-600;
   }
 
   input {
@@ -26,10 +26,14 @@
   .input {
     @apply rounded-sm bg-gray-200 px-2
   }
-}
 
-@utility text-description {
-  @apply text-sm text-gray-500;
+  .text-emphasis {
+    @apply text-blue-500;
+  }
+
+  .text-description {
+    @apply text-sm text-gray-500;
+  }
 }
 
 .book-row {

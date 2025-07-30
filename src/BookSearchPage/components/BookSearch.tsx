@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Search } from "./Search.tsx";
 import { SearchedBooks } from "./SearchedBooks.tsx";
 import { useSearchBooks } from "../hooks/useSearchBooks.ts";
-import { useIntersectionObserver } from "../hooks/useIntersectionObserver.ts";
+import { useIntersectionObserver } from "../../hooks/useIntersectionObserver.ts";
 import type { SearchForm } from "../../types";
 import { FormProvider, useForm } from "react-hook-form";
 

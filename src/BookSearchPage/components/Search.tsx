@@ -94,7 +94,7 @@ Search.History = function SearchHistory(props: SearchHistoryProps) {
   }
 
   return (
-    <ul className="absolute top-[-16px] left-0 w-full rounded-sm bg-gray-200">
+    <ul className="absolute top-[-16px] left-0 z-10 w-full rounded-sm bg-gray-200">
       {bookSearchHistories.map((history) => (
         <li
           key={history}

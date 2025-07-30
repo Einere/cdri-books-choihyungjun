@@ -40,7 +40,7 @@ SearchedBooks.Header = function SearchedBooksHeader(
   return (
     <div className="mb-4">
       <p>
-        도서 검색 결과 총 <span className="text-blue-400">{numOfBooks}</span>건
+        도서 검색 결과 총 <span className="text-emphasis">{numOfBooks}</span>건
       </p>
     </div>
   );

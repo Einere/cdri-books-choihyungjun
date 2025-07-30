@@ -18,4 +18,8 @@ export class BookManager {
       book.thumbnail
     );
   }
+
+  static getIsBookmarked(book: _Document, bookmarkedBooks: _Document[]) {
+    return bookmarkedBooks.some((b) => b.isbn === book.isbn);
+  }
 }

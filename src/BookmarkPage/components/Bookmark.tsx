@@ -1,0 +1,111 @@
+import { useAtomValue } from "jotai/index";
+import {
+  infiniteBookmarkedBooksAtom,
+  loadMoreInfiniteBookmarkedBooksAtom,
+  resetCurrentPageAtom,
+  totalNumOfBookmarkedBooksAtom,
+} from "../../atoms";
+import { isEmptyArray } from "@einere/common-utils";
+import { Book } from "../../BookSearchPage/components/Book.tsx";
+import { BookManager } from "../../entity/BookManager.ts";
+import { useSetAtom } from "jotai";
+import { type PropsWithChildren, useEffect, useRef } from "react";
+import { useIntersectionObserver } from "../../hooks/useIntersectionObserver.ts";
+import type { _Document } from "../../types";
+
+export function Bookmark() {
+  const totalNumOfBookmarkedBooks = useAtomValue(totalNumOfBookmarkedBooksAtom);
+  const { currentPage, bookmarkedBooks } = useAtomValue(
+    infiniteBookmarkedBooksAtom,
+  );
+  const loadMore = useSetAtom(loadMoreInfiniteBookmarkedBooksAtom);
+  const resetCurrentPage = useSetAtom(resetCurrentPageAtom);
+
+  useEffect(() => {
+    return () => {
+      resetCurrentPage();
+    };
+  }, []);
+
+  // NOTE: load more 동작이 인터섹션 중 한번만 호출되도록 제어하기 위함
+  const _isFetching = useRef(false);
+  const { observe, unobserve } = useIntersectionObserver(() => {
+    if (!_isFetching.current) {
+      _isFetching.current = true;
+      loadMore(currentPage + 1);
+      _isFetching.current = false;
+    }
+  });
+
+  useEffect(() => {
+    observe("#intersection-observer");
+
+    return () => {
+      unobserve("#intersection-observer");
+    };
+  }, [observe, unobserve]);
+
+  if (isEmptyArray(bookmarkedBooks)) {
+    return (
+      <Bookmark.Empty>
+        <p id="intersection-observer" />
+      </Bookmark.Empty>
+    );
+  }
+
+  return (
+    <Bookmark.NonEmpty
+      numOfBook={totalNumOfBookmarkedBooks}
+      books={bookmarkedBooks}
+    >
+      <p id="intersection-observer" />
+    </Bookmark.NonEmpty>
+  );
+}
+
+type BookmarkHeaderProps = {
+  numOfBooks: number;
+};
+Bookmark.Header = function BookmarkHeader(props: BookmarkHeaderProps) {
+  const { numOfBooks } = props;
+
+  return (
+    <div className="mb-4">
+      <p>
+        찜한 책 총 <span className="text-emphasis">{numOfBooks}</span>건
+      </p>
+    </div>
+  );
+};
+
+Bookmark.Empty = function BookmarkEmpty(props: PropsWithChildren) {
+  const { children } = props;
+
+  return (
+    <>
+      <Bookmark.Header numOfBooks={0} />
+      <p className="text-center">찜한 책이 없습니다.</p>
+      {children}
+    </>
+  );
+};
+
+type BookmarkNonEmptyProps = {
+  numOfBook: number;
+  books: _Document[];
+};
+Bookmark.NonEmpty = function BookmarkNonEmpty(
+  props: PropsWithChildren<BookmarkNonEmptyProps>,
+) {
+  const { numOfBook, books, children } = props;
+
+  return (
+    <>
+      <Bookmark.Header numOfBooks={numOfBook} />
+      {books.map((book) => (
+        <Book key={BookManager.getKey(book)} book={book} />
+      ))}
+      {children}
+    </>
+  );
+};
