@@ -2,9 +2,9 @@ import { isEmptyArray } from "@einere/common-utils";
 import { Book } from "./Book.tsx";
 import { type PropsWithChildren } from "react";
 import type { ErrorBoundaryFallbackProps } from "@suspensive/react";
-import { AxiosError } from "axios";
 import { BookManager } from "../../entity/BookManager.ts";
 import type { _Document } from "../../types";
+import { HttpClientError } from "../../HttpClient";
 
 type SearchedBooksProps = {
   totalNumOfBooks: number;
@@ -88,7 +88,7 @@ SearchedBooks.ErrorFallback = function SearchedBooksErrorFallback(
 ) {
   const { error, reset } = props;
 
-  if (error instanceof AxiosError) {
+  if (error instanceof HttpClientError) {
     switch (error.status) {
       case 404: {
         return <p>책을 찾을 수 없습니다.</p>;
