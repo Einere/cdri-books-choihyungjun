@@ -38,9 +38,9 @@ export function Search(props: SearchProps) {
           refetch();
           setIsFocused(false);
         })}
-        className="mb-4 grid w-fit grid-cols-[auto_auto] gap-4"
+        className="mb-4 grid w-fit grid-cols-2 gap-4"
       >
-        <div className="input relative grid w-fit grid-cols-[1fr_auto_auto] items-center">
+        <div className="input relative grid w-fit grid-cols-[1fr_auto] items-center">
           <MagnifyingGlassIcon />
 
           <input
@@ -57,7 +57,11 @@ export function Search(props: SearchProps) {
               },
             })}
           />
+        </div>
 
+        <DetailSearch refetch={refetch} />
+
+        <div className="relative">
           <Search.History
             isExpanded={isFocused}
             onClick={(history) => {
@@ -70,8 +74,6 @@ export function Search(props: SearchProps) {
             }}
           />
         </div>
-
-        <DetailSearch refetch={refetch} />
       </form>
     </>
   );
@@ -92,7 +94,7 @@ Search.History = function SearchHistory(props: SearchHistoryProps) {
   }
 
   return (
-    <ul className="absolute top-[32px] left-0 w-full rounded-sm bg-gray-200">
+    <ul className="absolute top-[-16px] left-0 w-full rounded-sm bg-gray-200">
       {bookSearchHistories.map((history) => (
         <li
           key={history}
