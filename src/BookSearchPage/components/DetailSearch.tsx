@@ -14,7 +14,10 @@ export function DetailSearch(props: DetailSearchProps) {
   return (
     <Popover className="relative">
       <PopoverButton className="button-secondary">상세 검색</PopoverButton>
-      <PopoverPanel anchor="bottom" className="bg-white p-8 shadow-md">
+      <PopoverPanel
+        anchor="bottom"
+        className="rounded-sm border-1 border-solid border-gray-200 bg-white p-8 shadow-md"
+      >
         {({ close }) => (
           <form
             onSubmit={(e) => {
