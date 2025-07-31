@@ -37,7 +37,7 @@
 }
 
 .book-row {
-  @apply grid gap-8 border-b border-gray-200 p-4 transition-all duration-300;
+  @apply grid gap-8 border-b border-gray-200 p-4 transition-all duration-300 nth-last-[2]:border-none;
 }
 
 .book-row:last-child {
