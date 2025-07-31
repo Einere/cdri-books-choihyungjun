@@ -57,6 +57,7 @@ export function BookSearch() {
     };
   }, [observe, unobserve]);
 
+  // NOTE: 검색 전 UI 표시
   if (!data) {
     return (
       <FormProvider {...formMethods}>

@@ -40,6 +40,7 @@ export function Book(props: BookProps) {
       </div>
 
       {/* 정보 영역 */}
+      {/* NOTE: 펼침 시, 레이아웃 시프트를 방지하기 위해 상단 정렬 */}
       <div className="info">
         <div className="flex items-center gap-3">
           <h3 className="text-lg font-bold">{title}</h3>
