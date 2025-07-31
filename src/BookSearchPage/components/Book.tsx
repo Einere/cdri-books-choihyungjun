@@ -54,7 +54,7 @@ export function Book(props: BookProps) {
         {isExpanded && (
           <div className="mt-4">
             <p>책 소개</p>
-            <p className="mt-2 text-sm text-gray-600">{`${contents}...`}</p>
+            <p className="text-description mt-2">{`${contents}...`}</p>
           </div>
         )}
       </div>
@@ -83,7 +83,7 @@ Book.Price = function BookPrice(props: BookPriceProps) {
 
   if (BookManager.isOnSale(book)) {
     return (
-      <div className="text-right text-sm text-gray-500">
+      <div className="text-description text-right">
         <p>
           원가&nbsp;
           <span className="line-through">{formatNumber(book.price)}원</span>
@@ -98,7 +98,7 @@ Book.Price = function BookPrice(props: BookPriceProps) {
     );
   } else {
     return (
-      <div className="text-right text-sm text-gray-500">
+      <div className="text-description text-right">
         <p>
           원가&nbsp;
           <span>{formatNumber(book.price)}원</span>
