@@ -10,8 +10,11 @@ import { Book } from "../../BookSearchPage/components/Book.tsx";
 import { BookManager } from "../../entity/BookManager.ts";
 import { useSetAtom } from "jotai";
 import { type PropsWithChildren, useEffect, useRef } from "react";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver.ts";
 import type { _Document } from "../../types";
+import { useLoadMore } from "../../BookSearchPage/hooks/useLoadMore.ts";
+
+const LOAD_MORE_ID = "load-more-id";
+const LOAD_MORE_ID_SELECTOR = `#${LOAD_MORE_ID}`;
 
 export function Bookmark() {
   const totalNumOfBookmarkedBooks = useAtomValue(totalNumOfBookmarkedBooksAtom);
@@ -29,7 +32,7 @@ export function Bookmark() {
 
   // NOTE: load more 동작이 인터섹션 중 한번만 호출되도록 제어하기 위함
   const _isFetching = useRef(false);
-  const { observe, unobserve } = useIntersectionObserver(() => {
+  useLoadMore(LOAD_MORE_ID_SELECTOR, () => {
     if (!_isFetching.current) {
       _isFetching.current = true;
       loadMore(currentPage + 1);
@@ -37,18 +40,10 @@ export function Bookmark() {
     }
   });
 
-  useEffect(() => {
-    observe("#intersection-observer");
-
-    return () => {
-      unobserve("#intersection-observer");
-    };
-  }, [observe, unobserve]);
-
   if (isEmptyArray(bookmarkedBooks)) {
     return (
       <Bookmark.Empty>
-        <p id="intersection-observer" />
+        <p id={LOAD_MORE_ID} />
       </Bookmark.Empty>
     );
   }
@@ -58,7 +53,7 @@ export function Bookmark() {
       numOfBook={totalNumOfBookmarkedBooks}
       books={bookmarkedBooks}
     >
-      <p id="intersection-observer" />
+      <p id={LOAD_MORE_ID} />
     </Bookmark.NonEmpty>
   );
 }

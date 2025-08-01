@@ -1,10 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Search } from "./Search.tsx";
 import { SearchedBooks } from "./SearchedBooks.tsx";
 import { useSearchBooks } from "../hooks/useSearchBooks.ts";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver.ts";
 import type { SearchForm } from "../../types";
 import { FormProvider, useForm } from "react-hook-form";
+import { useLoadMore } from "../hooks/useLoadMore.ts";
+
+const LOAD_MORE_ID = "load-more-id";
+const LOAD_MORE_ID_SELECTOR = `#${LOAD_MORE_ID}`;
 
 export function BookSearch() {
   const formMethods = useForm<SearchForm>({
@@ -35,7 +38,7 @@ export function BookSearch() {
 
   // NOTE: load more 동작이 인터섹션 중 한번만 호출되도록 제어하기 위함
   const _isFetching = useRef(false);
-  const { observe, unobserve } = useIntersectionObserver(() => {
+  useLoadMore(LOAD_MORE_ID_SELECTOR, () => {
     if (
       !isFetching &&
       !isFetchingNextPage &&
@@ -48,14 +51,6 @@ export function BookSearch() {
       });
     }
   });
-
-  useEffect(() => {
-    observe("#intersection-observer");
-
-    return () => {
-      unobserve("#intersection-observer");
-    };
-  }, [observe, unobserve]);
 
   // NOTE: 검색 전 UI 표시
   if (!data) {
@@ -92,7 +87,7 @@ export function BookSearch() {
     <FormProvider {...formMethods}>
       <Search refetch={refetch} />
       <SearchedBooks totalNumOfBooks={totalNumOfBooks} books={books}>
-        <p id="intersection-observer" className="text-center">
+        <p id={LOAD_MORE_ID} className="text-center">
           {isFetchingNextPage ? "더 불러오는 중..." : ""}
         </p>
       </SearchedBooks>
