@@ -61,6 +61,7 @@ export function Search(props: SearchProps) {
 
         <DetailSearch refetch={refetch} />
 
+        {/* NOTE: CSS anchor position api 를 사용하려고 했으나, 사파리는 미지원. */}
         <div className="relative">
           <Search.History
             isExpanded={isFocused}
