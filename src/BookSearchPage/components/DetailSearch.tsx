@@ -15,8 +15,9 @@ export function DetailSearch(props: DetailSearchProps) {
     <Popover className="relative">
       <PopoverButton className="button-secondary">상세 검색</PopoverButton>
       <PopoverPanel
-        anchor="bottom"
-        className="rounded-sm border-1 border-solid border-gray-200 bg-white p-8 shadow-md"
+        anchor={{ to: "bottom", gap: 8 }}
+        transition
+        className="popover-transition rounded-sm border-1 border-solid border-gray-200 bg-white p-8 shadow-md"
       >
         {({ close }) => (
           <form
