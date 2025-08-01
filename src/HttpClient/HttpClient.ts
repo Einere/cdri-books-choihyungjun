@@ -1,6 +1,6 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import axios from "axios";
-import { AuthManager } from "../entity/AuthManager.ts";
+import { AuthManager } from "../entity";
 import { HttpClientError } from "./HttpClientError.ts";
 
 type Method = "get" | "post" | "put" | "delete" | "patch";

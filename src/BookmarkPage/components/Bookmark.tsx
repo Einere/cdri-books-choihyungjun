@@ -7,7 +7,7 @@ import {
 } from "../../atoms";
 import { isEmptyArray } from "@einere/common-utils";
 import { Book } from "../../BookSearchPage/components/Book.tsx";
-import { BookManager } from "../../entity/BookManager.ts";
+import { BookManager } from "../../entity";
 import { useSetAtom } from "jotai";
 import { type PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import type { _Document } from "../../types";

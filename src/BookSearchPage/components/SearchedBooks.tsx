@@ -2,7 +2,7 @@ import { isEmptyArray } from "@einere/common-utils";
 import { Book } from "./Book.tsx";
 import { type PropsWithChildren } from "react";
 import type { ErrorBoundaryFallbackProps } from "@suspensive/react";
-import { BookManager } from "../../entity/BookManager.ts";
+import { BookManager } from "../../entity";
 import type { _Document } from "../../types";
 import { HttpClientError } from "../../HttpClient";
 
