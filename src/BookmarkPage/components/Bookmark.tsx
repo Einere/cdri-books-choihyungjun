@@ -11,7 +11,7 @@ import { BookManager } from "../../entity/BookManager.ts";
 import { useSetAtom } from "jotai";
 import { type PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import type { _Document } from "../../types";
-import { useLoadMore } from "../../BookSearchPage/hooks/useLoadMore.ts";
+import { useLoadMore } from "../../hooks";
 
 const LOAD_MORE_ID = "load-more-id";
 const LOAD_MORE_ID_SELECTOR = `#${LOAD_MORE_ID}`;

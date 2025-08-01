@@ -4,7 +4,7 @@ import { SearchedBooks } from "./SearchedBooks.tsx";
 import { useSearchBooks } from "../hooks/useSearchBooks.ts";
 import type { SearchForm } from "../../types";
 import { FormProvider, useForm } from "react-hook-form";
-import { useLoadMore } from "../hooks/useLoadMore.ts";
+import { useLoadMore } from "../../hooks";
 
 const LOAD_MORE_ID = "load-more-id";
 const LOAD_MORE_ID_SELECTOR = `#${LOAD_MORE_ID}`;

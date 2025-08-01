@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "./useIntersectionObserver.ts";
 
 export function useLoadMore(querySelector: string, onIntersect: () => void) {
   const { observe, unobserve } = useIntersectionObserver(onIntersect);
