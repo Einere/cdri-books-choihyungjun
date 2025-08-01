@@ -1,9 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { Layout } from "../components/Layout.tsx";
-import { BookSearchPage } from "../pages/BookSearchPage.tsx";
+import { BookSearchPage, BookmarkPage, NotFoundPage } from "../pages";
 import { PATH } from "./path.ts";
-import { BookmarkPage } from "../pages/BookmarkPage.tsx";
-import { NotFoundPage } from "../pages/NotFoundPage.tsx";
 
 export const router = createBrowserRouter([
   {
