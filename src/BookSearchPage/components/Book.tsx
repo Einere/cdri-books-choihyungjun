@@ -1,7 +1,7 @@
 import type { _Document } from "../../types";
 import { useState } from "react";
 import clsx from "clsx";
-import { formatNumber } from "../../utils/intl.ts";
+import { formatNumber } from "../../utils";
 import { BookManager } from "../../entity";
 import { ChevronDownIcon, HeartIcon } from "@heroicons/react/24/outline";
 import { ExpandToggleButton } from "./ExpandToggleButton.tsx";
