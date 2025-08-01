@@ -9,7 +9,7 @@ import { isEmptyArray } from "@einere/common-utils";
 import { Book } from "../../BookSearchPage/components/Book.tsx";
 import { BookManager } from "../../entity/BookManager.ts";
 import { useSetAtom } from "jotai";
-import { type PropsWithChildren, useEffect, useRef } from "react";
+import { type PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import type { _Document } from "../../types";
 import { useLoadMore } from "../../BookSearchPage/hooks/useLoadMore.ts";
 
@@ -23,12 +23,13 @@ export function Bookmark() {
   );
   const loadMore = useSetAtom(loadMoreInfiniteBookmarkedBooksAtom);
   const resetCurrentPage = useSetAtom(resetCurrentPageAtom);
+  const onUnmount = useCallback(resetCurrentPage, [resetCurrentPage]);
 
   useEffect(() => {
     return () => {
-      resetCurrentPage();
+      onUnmount();
     };
-  }, []);
+  }, [onUnmount]);
 
   // NOTE: load more 동작이 인터섹션 중 한번만 호출되도록 제어하기 위함
   const _isFetching = useRef(false);
